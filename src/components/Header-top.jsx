@@ -11,21 +11,21 @@ export default function HeaderTop() {
                         আমাদের যে কোন পণ্য অর্ডার করতে Whatsapp করুন বা কল করুন
                     </p>
                     <div className="flex items-center gap-4 sm:gap-6">
-                        <a 
-                            href="tel:+8801711111111" 
+                        <a
+                            href="tel:+8801822858380"
                             className="flex items-center gap-1.5 text-white hover:text-green-400 transition-colors"
                         >
                             <FaPhoneAlt className="text-sm text-green-500" />
-                            <p className="text-xs sm:text-sm font-medium">+8801711111111</p>
+                            <p className="text-xs sm:text-sm font-medium">+8801822858380</p>
                         </a>
-                        <a 
-                            href="https://wa.me/8801711111111" 
-                            target="_blank" 
+                        <a
+                            href="https://wa.me/8801822858283"
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1.5 text-white hover:text-green-400 transition-colors"
                         >
                             <PiWhatsappLogoBold className="text-sm text-green-500" />
-                            <p className="text-xs sm:text-sm font-medium">+8801711111111</p>
+                            <p className="text-xs sm:text-sm font-medium">+8801822858283</p>
                         </a>
                     </div>
                 </div>
