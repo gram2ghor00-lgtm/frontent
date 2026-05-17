@@ -8,6 +8,8 @@ export default function AdminOrdersPage() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
+    const [dateFrom, setDateFrom] = useState("");
+    const [dateTo, setDateTo] = useState("");
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [confirmModal, setConfirmModal] = useState({ show: false, order: null, deliveryDate: "", adminNotes: "" });
     const [processing, setProcessing] = useState(false);
@@ -111,13 +113,40 @@ export default function AdminOrdersPage() {
         }
     };
 
+    const toLocalYMD = (iso) => {
+        const d = new Date(iso);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    };
+
     const filteredOrders = orders.filter(order => {
-        const matchesSearch = !search || 
+        const matchesSearch = !search ||
             order.orderId?.toLowerCase().includes(search.toLowerCase()) ||
             order.customerName?.toLowerCase().includes(search.toLowerCase()) ||
             order.customerPhone?.includes(search);
-        return matchesSearch;
+
+        let matchesDate = true;
+        if ((dateFrom || dateTo) && order.createdAt) {
+            const orderDate = toLocalYMD(order.createdAt);
+            if (dateFrom && orderDate < dateFrom) matchesDate = false;
+            if (dateTo && orderDate > dateTo) matchesDate = false;
+        }
+
+        return matchesSearch && matchesDate;
     });
+
+    const todayYMD = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    };
+
+    const setQuickRange = (days) => {
+        const end = new Date();
+        const start = new Date();
+        start.setDate(start.getDate() - (days - 1));
+        const fmt = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        setDateFrom(fmt(start));
+        setDateTo(fmt(end));
+    };
 
     const getStatusBadge = (status) => {
         const statusStyles = {
@@ -177,32 +206,101 @@ export default function AdminOrdersPage() {
             </div>
 
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <h3 className="text-2xl font-bold text-gray-800">Orders Management</h3>
-                <div className="flex flex-col sm:flex-row gap-3">
-                    <div className="relative">
-                        <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Search by Order ID, Name, Phone..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm w-full sm:w-72 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                        />
+            <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <h3 className="text-2xl font-bold text-gray-800">Orders Management</h3>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        <div className="relative">
+                            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Search by Order ID, Name, Phone..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm w-full sm:w-72 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            />
+                        </div>
+                        <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                        >
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
                     </div>
-                    <select
-                        value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}
-                        className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    >
-                        <option value="all">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="processing">Processing</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
+                </div>
+
+                {/* Date Filter Row */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-white border border-gray-200 rounded-xl p-3">
+                    <div className="flex items-center gap-2 text-gray-600">
+                        <FiCalendar className="w-4 h-4 text-emerald-600" />
+                        <span className="text-sm font-medium">Filter by date:</span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2 sm:items-center flex-1">
+                        <div className="flex items-center gap-2">
+                            <label className="text-xs text-gray-500 whitespace-nowrap">From</label>
+                            <input
+                                type="date"
+                                value={dateFrom}
+                                onChange={(e) => setDateFrom(e.target.value)}
+                                max={dateTo || undefined}
+                                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <label className="text-xs text-gray-500 whitespace-nowrap">To</label>
+                            <input
+                                type="date"
+                                value={dateTo}
+                                onChange={(e) => setDateTo(e.target.value)}
+                                min={dateFrom || undefined}
+                                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            />
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        <button
+                            type="button"
+                            onClick={() => { const t = todayYMD(); setDateFrom(t); setDateTo(t); }}
+                            className="px-3 py-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100"
+                        >
+                            Today
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setQuickRange(7)}
+                            className="px-3 py-1.5 text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-100"
+                        >
+                            Last 7 days
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setQuickRange(30)}
+                            className="px-3 py-1.5 text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-100"
+                        >
+                            Last 30 days
+                        </button>
+                        {(dateFrom || dateTo) && (
+                            <button
+                                type="button"
+                                onClick={() => { setDateFrom(""); setDateTo(""); }}
+                                className="px-3 py-1.5 text-xs font-medium bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 flex items-center gap-1"
+                            >
+                                <FiX className="w-3 h-3" /> Clear
+                            </button>
+                        )}
+                    </div>
+                    {(dateFrom || dateTo) && (
+                        <span className="text-xs text-gray-500 sm:ml-auto whitespace-nowrap">
+                            {filteredOrders.length} order{filteredOrders.length === 1 ? '' : 's'} in range
+                        </span>
+                    )}
                 </div>
             </div>
 
