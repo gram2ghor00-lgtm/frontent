@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 
 export default function CategoryProducts({ categorySlug }) {
     const [products, setProducts] = useState([]);
@@ -40,8 +41,13 @@ export default function CategoryProducts({ categorySlug }) {
 
     if (loading) {
         return (
-            <div className="w-full py-20 flex items-center justify-center">
-                <p className="text-gray-500">Loading products...</p>
+            <div className="w-full py-8 px-4 max-w-7xl mx-auto">
+                <div className="h-8 w-48 bg-gray-200 rounded animate-pulse mb-8" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <ProductCardSkeleton key={i} />
+                    ))}
+                </div>
             </div>
         );
     }
@@ -74,6 +80,8 @@ export default function CategoryProducts({ categorySlug }) {
                                 <img
                                     src={product.cover_image}
                                     alt={product.firstName}
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-full object-cover"
                                 />
                             </div>

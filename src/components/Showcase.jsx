@@ -43,12 +43,7 @@ export default function Showcase() {
 
     if (loading) {
         return (
-            <div className="w-full h-[60vh] flex items-center justify-center bg-gray-100">
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-8 h-8 border-4 border-gray-300 border-t-emerald-600 rounded-full animate-spin" />
-                    <p className="text-gray-500 text-sm tracking-wide">Loading...</p>
-                </div>
-            </div>
+            <div className="mt-4 lg:mt-8 relative w-full aspect-[2/1] lg:!h-[62vh] overflow-hidden bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 animate-pulse" />
         );
     }
 
@@ -75,20 +70,26 @@ export default function Showcase() {
                 className="flex h-full transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${current * 100}%)` }}
             >
-                {headers.map((header) => (
+                {headers.map((header, idx) => (
                     <div key={header._id} className="min-w-full h-full flex-shrink-0">
                         {header.url ? (
                             <a href={header.url} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
                                 <img
                                     src={header.image}
-                                    alt="Header"
+                                    alt="Gram2Ghor banner"
+                                    loading={idx === 0 ? "eager" : "lazy"}
+                                    decoding={idx === 0 ? "sync" : "async"}
+                                    fetchPriority={idx === 0 ? "high" : "auto"}
                                     className="w-full h-full object-cover"
                                 />
                             </a>
                         ) : (
                             <img
                                 src={header.image}
-                                alt="Header"
+                                alt="Gram2Ghor banner"
+                                loading={idx === 0 ? "eager" : "lazy"}
+                                decoding={idx === 0 ? "sync" : "async"}
+                                fetchPriority={idx === 0 ? "high" : "auto"}
                                 className="w-full h-full object-cover"
                             />
                         )}

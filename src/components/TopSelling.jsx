@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FiArrowLeft, FiArrowRight, FiEye, FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 
 export default function TopSelling() {
     const [products, setProducts] = useState([]);
@@ -77,8 +78,17 @@ export default function TopSelling() {
 
     if (loading) {
         return (
-            <div className="w-full py-10 flex items-center justify-center">
-                <p className="text-gray-500">Loading...</p>
+            <div className="w-full py-8 px-4">
+                <div className="flex items-center justify-between mb-6 max-w-7xl mx-auto">
+                    <div className="w-9 h-9 rounded-full bg-gray-100" />
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 text-center">Top Selling</h2>
+                    <div className="w-9 h-9 rounded-full bg-gray-100" />
+                </div>
+                <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    {Array.from({ length: productsPerView }).map((_, i) => (
+                        <ProductCardSkeleton key={i} />
+                    ))}
+                </div>
             </div>
         );
     }
@@ -143,6 +153,8 @@ export default function TopSelling() {
                                         <img
                                             src={productImage}
                                             alt={product.firstName}
+                                            loading="lazy"
+                                            decoding="async"
                                             className={`w-full h-full object-cover transition-transform duration-500 ${hoveredProduct === product._id ? 'scale-110' : ''}`}
                                         />
                                     ) : (

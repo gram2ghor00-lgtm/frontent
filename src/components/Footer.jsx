@@ -1,7 +1,49 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { FiMapPin, FiPhone, FiMail, FiFacebook, FiInstagram, FiLinkedin, FiYoutube } from "react-icons/fi";
+import { FiMapPin, FiPhone, FiMail } from "react-icons/fi";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube, FaTiktok } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
+
+const socialLinks = [
+    {
+        href: "https://www.facebook.com/share/1GcHsDrdfT/",
+        label: "Facebook",
+        Icon: FaFacebookF,
+        hoverBg: "hover:bg-[#1877F2]",
+    },
+    {
+        href: "https://www.instagram.com/gram2ghor?igsh=cTNsdmJ1dWd1azZu",
+        label: "Instagram",
+        Icon: FaInstagram,
+        hoverBg: "hover:bg-gradient-to-tr hover:from-[#feda75] hover:via-[#fa7e1e] hover:to-[#d62976]",
+    },
+    {
+        href: "https://www.linkedin.com/in/gram-2-ghor-a5a15a402",
+        label: "LinkedIn",
+        Icon: FaLinkedinIn,
+        hoverBg: "hover:bg-[#0A66C2]",
+    },
+    {
+        href: "mailto:gram2ghor@gmail.com",
+        label: "Email",
+        Icon: HiOutlineMail,
+        hoverBg: "hover:bg-[#EA4335]",
+        external: false,
+    },
+    {
+        href: "https://youtube.com/@gram2ghor?si=iKdccWgOOUNrarJs",
+        label: "YouTube",
+        Icon: FaYoutube,
+        hoverBg: "hover:bg-[#FF0000]",
+    },
+    {
+        href: "https://www.tiktok.com/@gram2.ghor?_r=1&_t=ZS-95OXC3fLIaD",
+        label: "TikTok",
+        Icon: FaTiktok,
+        hoverBg: "hover:bg-black",
+    },
+];
 
 export default function Footer() {
     return (
@@ -38,29 +80,19 @@ export default function Footer() {
                         </div>
 
                         {/* Social Media Links */}
-                        <div className="flex gap-4">
-                            <a href="https://www.facebook.com/share/1GcHsDrdfT/" target="_blank" rel="noopener noreferrer" className="text-black hover:text-black transition-colors">
-                                <FiFacebook className="w-6 h-6" />
-                            </a>
-                            <a href="https://www.instagram.com/gram2ghor?igsh=cTNsdmJ1dWd1azZu" target="_blank" rel="noopener noreferrer" className="text-black hover:text-black transition-colors">
-                                <FiInstagram className="w-6 h-6" />
-                            </a>
-                            <a href="https://www.linkedin.com/in/gram-2-ghor-a5a15a402" target="_blank" rel="noopener noreferrer" className="text-black hover:text-black transition-colors">
-                                <FiLinkedin className="w-6 h-6" />
-                            </a>
-                            <a href="mailto:gram2ghor@gmail.com" className="text-black hover:text-black transition-colors">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </a>
-                            <a href="https://youtube.com/@gram2ghor?si=iKdccWgOOUNrarJs" target="_blank" rel="noopener noreferrer" className="text-black hover:text-black transition-colors">
-                                <FiYoutube className="w-6 h-6" />
-                            </a>
-                            <a href="https://www.tiktok.com/@gram2.ghor?_r=1&_t=ZS-95OXC3fLIaD" target="_blank" rel="noopener noreferrer" className="text-black hover:text-black transition-colors">
-                                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 16.8a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.56a8.29 8.29 0 004.67 1.47V6.69h-4.91z" />
-                                </svg>
-                            </a>
+                        <div className="flex flex-wrap gap-2.5">
+                            {socialLinks.map(({ href, label, Icon, hoverBg, external = true }) => (
+                                <a
+                                    key={label}
+                                    href={href}
+                                    aria-label={label}
+                                    title={label}
+                                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                                    className={`w-10 h-10 flex items-center justify-center rounded-full bg-black/10 text-black ${hoverBg} hover:text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200`}
+                                >
+                                    <Icon className="w-[18px] h-[18px]" />
+                                </a>
+                            ))}
                         </div>
                     </div>
 

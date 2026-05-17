@@ -338,7 +338,7 @@ export default function CustomerReviews() {
                                                 {item.type === 'video' ? (
                                                     <video src={item.url} muted playsInline />
                                                 ) : (
-                                                    <img src={item.url} alt="" />
+                                                    <img src={item.url} alt="Customer review photo" loading="lazy" decoding="async" />
                                                 )}
                                             </div>
                                         ))}

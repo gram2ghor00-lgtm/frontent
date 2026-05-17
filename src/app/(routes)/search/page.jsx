@@ -85,6 +85,8 @@ function SearchContent() {
                                 <img
                                     src={product.cover_image}
                                     alt={product.firstName}
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-full object-cover"
                                 />
                             </div>

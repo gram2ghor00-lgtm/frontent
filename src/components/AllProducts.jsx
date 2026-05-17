@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiEye, FiPlus } from "react-icons/fi";
+import { ProductGridSkeleton } from "./ProductCardSkeleton";
 
 export default function AllProducts() {
     const [products, setProducts] = useState([]);
@@ -47,8 +48,9 @@ export default function AllProducts() {
 
     if (loading) {
         return (
-            <div className="w-full py-10 flex items-center justify-center">
-                <p className="text-gray-500">Loading...</p>
+            <div className="w-full py-8 px-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-6">All Products</h2>
+                <ProductGridSkeleton count={10} />
             </div>
         );
     }
@@ -91,6 +93,8 @@ export default function AllProducts() {
                                     <img
                                         src={productImage}
                                         alt={product.firstName}
+                                        loading="lazy"
+                                        decoding="async"
                                         className={`w-full h-full object-cover transition-transform duration-300 ${hoveredProduct === product._id ? 'scale-110' : ''}`}
                                     />
                                 ) : (

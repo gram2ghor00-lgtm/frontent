@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FiShoppingCart, FiCheck, FiHelpCircle, FiMessageCircle } from "react-icons/fi";
+import { FiShoppingCart, FiCheck, FiHelpCircle, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import { PiWhatsappLogoBold } from "react-icons/pi";
 import { addToCart } from "@/utils/cart";
 
@@ -217,9 +217,12 @@ export default function ProductClient({ productId }) {
                 <div className="order-1">
                     <div className="aspect-square bg-gray-100 rounded-lg sm:rounded-xl overflow-hidden mb-3 sm:mb-4">
                         {allImages.length > 0 ? (
-                            <img 
-                                src={allImages[selectedImage]} 
+                            <img
+                                src={allImages[selectedImage]}
                                 alt={product.firstName}
+                                loading="eager"
+                                decoding="async"
+                                fetchPriority="high"
                                 className="w-full h-full object-cover"
                             />
                         ) : (
@@ -239,9 +242,11 @@ export default function ProductClient({ productId }) {
                                         selectedImage === index ? 'border-emerald-600' : 'border-transparent hover:border-gray-300'
                                     }`}
                                 >
-                                    <img 
-                                        src={img} 
+                                    <img
+                                        src={img}
                                         alt={`${product.firstName} ${index + 1}`}
+                                        loading="lazy"
+                                        decoding="async"
                                         className="w-full h-full object-cover"
                                     />
                                 </button>
@@ -376,17 +381,27 @@ export default function ProductClient({ productId }) {
                                  <span>Chat on WhatsApp</span>
                              </a>
                          </div>
-                         <a
-                             href={`https://m.me/gram2ghor?text=${encodeURIComponent(`হ্যালো, আমি ${product?.firstName} পণ্যটি সম্পর্কে জানতে চাই।`)}`}
-                             target="_blank"
-                             rel="noopener noreferrer"
-                             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 sm:py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                         >
-                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                 <path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.111C24 4.975 18.627 0 12 0zm1.193 14.963l-3.056-3.259-5.963 3.259L10.732 8.2l3.131 3.259L19.752 8.2l-6.559 6.763z"/>
-                             </svg>
-                             Chat on Messenger
-                         </a>
+                         <div className="flex gap-3">
+                             <a
+                                 href="tel:+8801822858380"
+                                 className="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white text-sm sm:text-base font-medium py-3 sm:py-3.5 rounded-lg flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap shadow-sm hover:shadow-md"
+                                 aria-label="Call to order"
+                             >
+                                 <FiPhoneCall className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                                 <span>Call to Order</span>
+                             </a>
+                             <a
+                                 href={`https://m.me/gram2ghor?text=${encodeURIComponent(`হ্যালো, আমি ${product?.firstName} পণ্যটি সম্পর্কে জানতে চাই।`)}`}
+                                 target="_blank"
+                                 rel="noopener noreferrer"
+                                 className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm sm:text-base font-medium py-3 sm:py-3.5 rounded-lg flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap shadow-sm hover:shadow-md"
+                             >
+                                 <svg className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                     <path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.111C24 4.975 18.627 0 12 0zm1.193 14.963l-3.056-3.259-5.963 3.259L10.732 8.2l3.131 3.259L19.752 8.2l-6.559 6.763z"/>
+                                 </svg>
+                                 <span>Messenger</span>
+                             </a>
+                         </div>
                      </div>
 
                     {product.description && (
@@ -454,6 +469,8 @@ export default function ProductClient({ productId }) {
                                                  <img
                                                      src={item.cover_image || (item.weights?.[0]?.images?.[0]) || '/logo.png'}
                                                      alt={item.firstName}
+                                                     loading="lazy"
+                                                     decoding="async"
                                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                  />
                                              </div>

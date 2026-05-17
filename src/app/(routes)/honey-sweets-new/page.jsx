@@ -149,6 +149,8 @@ export default function HoneySweetsPage() {
                                         <img
                                             src={productImage}
                                             alt={product.firstName}
+                                            loading="lazy"
+                                            decoding="async"
                                             className={`w-full h-full object-cover transition-transform duration-500 ${hoveredProduct === product._id ? 'scale-110' : ''}`}
                                         />
                                     ) : (
