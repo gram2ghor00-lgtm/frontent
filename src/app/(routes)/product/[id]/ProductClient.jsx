@@ -458,12 +458,12 @@ export default function ProductClient({ productId }) {
                                      <div className="w-8 h-8 border-4 border-gray-300 border-t-emerald-600 rounded-full animate-spin" />
                                  </div>
                              ) : (
-                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 fade-in-stagger">
                                      {relatedProducts.map((item) => (
                                          <Link
                                              key={item._id}
                                              href={`/product/${item._id}`}
-                                             className="group border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                                             className="card-hover group border border-gray-100 rounded-xl overflow-hidden bg-white"
                                          >
                                              <div className="aspect-square bg-gray-100 overflow-hidden">
                                                  <img

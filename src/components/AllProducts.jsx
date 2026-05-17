@@ -74,7 +74,7 @@ export default function AllProducts() {
     return (
         <div className="w-full py-8 px-4">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-6">All Products</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-7xl mx-auto fade-in-stagger">
                 {products.map((product) => {
                     const productImage = product.cover_image || (product.weights && product.weights[0]?.images?.[0]) || null;
                     const minWeight = getMinDiscountedWeight(product.weights);
@@ -86,7 +86,7 @@ export default function AllProducts() {
                             onClick={() => goToProduct(product._id)}
                             onMouseEnter={() => setHoveredProduct(product._id)}
                             onMouseLeave={() => setHoveredProduct(null)}
-                            className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+                            className="card-hover bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 cursor-pointer"
                         >
                             <div className="relative aspect-square bg-gray-100 overflow-hidden">
                                 {productImage ? (

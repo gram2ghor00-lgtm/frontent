@@ -69,12 +69,12 @@ export default function CategoryProducts({ categorySlug }) {
             {products.length === 0 ? (
                 <p className="text-gray-500">No products found in this category</p>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 fade-in-stagger">
                     {products.map((product) => (
                         <a
                             key={product._id}
                             href={`/product/${product._id}`}
-                            className="block bg-white rounded-lg border border-gray-100 hover:shadow-lg transition-shadow"
+                            className="card-hover block bg-white rounded-xl border border-gray-100 overflow-hidden"
                         >
                             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
                                 <img

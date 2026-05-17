@@ -74,12 +74,12 @@ function SearchContent() {
                     </Link>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 fade-in-stagger">
                     {products.map((product) => (
                         <Link
                             key={product._id}
                             href={`/product/${product._id}`}
-                            className="block bg-white rounded-lg border border-gray-100 hover:shadow-lg transition-shadow"
+                            className="card-hover block bg-white rounded-xl border border-gray-100 overflow-hidden"
                         >
                             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
                                 <img

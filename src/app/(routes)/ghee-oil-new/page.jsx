@@ -134,7 +134,7 @@ export default function GheeOilPage() {
             </div>
 
             <div ref={containerRef} className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 fade-in-stagger">
                     {visibleProducts.map((product) => {
                         const productImage = product.cover_image || (product.weights && product.weights[0]?.images?.[0]) || null;
                         return (
@@ -143,7 +143,7 @@ export default function GheeOilPage() {
                                 onClick={() => goToProduct(product._id)}
                                 onMouseEnter={() => setHoveredProduct(product._id)}
                                 onMouseLeave={() => setHoveredProduct(null)}
-                                className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-300 cursor-pointer"
+                                className="card-hover bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm cursor-pointer"
                             >
                                 <div className="relative aspect-square bg-gray-100 overflow-hidden">
                                     {productImage ? (

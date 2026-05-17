@@ -166,7 +166,7 @@ export default function NewArraivals() {
                                         onClick={() => goToProduct(product._id)}
                                         onMouseEnter={() => setHoveredProduct(product._id)}
                                         onMouseLeave={() => setHoveredProduct(null)}
-                                        className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+                                        className="card-hover bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 cursor-pointer"
                                     >
                                         <div className="relative aspect-square bg-gray-100 overflow-hidden">
                                             {productImage ? (

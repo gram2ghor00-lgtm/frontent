@@ -23,14 +23,12 @@ export default function CheckoutPage() {
     
     const deliveryCharges = {
         inside_dhaka: 70,
-        outside_dhaka: 100,
-        outside_bangladesh: 130
+        outside_dhaka: 100
     };
-    
+
     const deliveryLabels = {
         inside_dhaka: 'Inside Dhaka',
-        outside_dhaka: 'Outside Dhaka',
-        outside_bangladesh: 'Outside Bangladesh'
+        outside_dhaka: 'Outside Dhaka'
     };
     
     const [formData, setFormData] = useState({
@@ -233,7 +231,6 @@ export default function CheckoutPage() {
                                     >
                                         <option value="inside_dhaka">Inside Dhaka (70৳)</option>
                                         <option value="outside_dhaka">Outside Dhaka (100৳)</option>
-                                        <option value="outside_bangladesh">Outside Bangladesh (130৳)</option>
                                     </select>
                                 </div>
                                 <div className="md:col-span-2">
