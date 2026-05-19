@@ -66,13 +66,13 @@ export default function Footer() {
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                         {/* Left — brand block */}
                         <div className="md:col-span-5">
-                            <div className="mb-4 inline-block bg-white/95 rounded-xl px-3 py-2 shadow-lg">
+                            <div className="mb-4 inline-flex items-center justify-center bg-white/95 rounded-full shadow-lg ring-4 ring-amber-400 w-36 h-36 sm:w-40 sm:h-40">
                                 <Image
                                     src="/logo.png"
                                     alt="Gram2Ghor Logo"
                                     width={220}
                                     height={70}
-                                    className="object-contain h-auto w-44 sm:w-52"
+                                    className="object-contain w-28 sm:w-32 h-auto"
                                 />
                             </div>
                             <p className="text-emerald-100/90 leading-relaxed mb-6 max-w-md">
