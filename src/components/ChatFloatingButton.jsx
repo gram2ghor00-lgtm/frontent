@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { PiWhatsappLogoBold } from "react-icons/pi";
-import { FiMessageCircle, FiX } from "react-icons/fi";
+import { FiMessageCircle, FiX, FiPhoneCall } from "react-icons/fi";
 
 export default function ChatFloatingButton() {
     const [isVisible, setIsVisible] = useState(false);
@@ -16,6 +16,7 @@ export default function ChatFloatingButton() {
     const encodedMessage = encodeURIComponent(defaultMessage);
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
     const messengerLink = "https://m.me/gram2ghor";
+    const callLink = "tel:+8801822858380";
 
     const toggleOpen = () => setIsOpen((prev) => !prev);
 
@@ -28,6 +29,13 @@ export default function ChatFloatingButton() {
             <div className="relative flex flex-col items-center gap-3">
                 {isOpen && (
                     <>
+                        <a
+                            href={callLink}
+                            className="flex items-center justify-center w-14 h-14 bg-emerald-700 hover:bg-emerald-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                            aria-label="Call to order"
+                        >
+                            <FiPhoneCall className="w-7 h-7 text-white" />
+                        </a>
                         <a
                             href={messengerLink}
                             target="_blank"
