@@ -23,12 +23,14 @@ export default function CheckoutPage() {
     
     const deliveryCharges = {
         inside_dhaka: 70,
-        outside_dhaka: 100
+        outside_dhaka: 100,
+        outside_bangladesh: 130
     };
 
     const deliveryLabels = {
-        inside_dhaka: 'Inside Dhaka',
-        outside_dhaka: 'Outside Dhaka'
+        inside_dhaka: 'ঢাকার মধ্যে',
+        outside_dhaka: 'ঢাকার পার্শ্ববর্তী অঞ্চলে',
+        outside_bangladesh: 'ঢাকার বাইরে'
     };
     
     const [formData, setFormData] = useState({
@@ -229,8 +231,9 @@ export default function CheckoutPage() {
                                         onChange={handleChange}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                                     >
-                                        <option value="inside_dhaka">Inside Dhaka (70৳)</option>
-                                        <option value="outside_dhaka">Outside Dhaka (100৳)</option>
+                                        <option value="inside_dhaka">ঢাকার মধ্যে ৭০/-</option>
+                                        <option value="outside_dhaka">ঢাকার পার্শ্ববর্তী অঞ্চলে ১০০/-</option>
+                                        <option value="outside_bangladesh">ঢাকার বাইরে ১৩০/-</option>
                                     </select>
                                 </div>
                                 <div className="md:col-span-2">
