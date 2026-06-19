@@ -1,7 +1,7 @@
 "use client";
 import { authFetch } from "@/services/api";
 import React, { useState, useEffect } from "react";
-import { FiSearch, FiEye, FiCheck, FiX, FiPackage, FiTruck, FiClock, FiChevronRight, FiDollarSign, FiCalendar, FiUser, FiMapPin, FiPhone, FiMail } from "react-icons/fi";
+import { FiSearch, FiEye, FiCheck, FiX, FiPackage, FiTruck, FiClock, FiChevronRight, FiDollarSign, FiCalendar, FiUser, FiMapPin, FiPhone, FiMail, FiTrash2 } from "react-icons/fi";
 
 export default function AdminOrdersPage() {
     const [orders, setOrders] = useState([]);
@@ -89,6 +89,27 @@ export default function AdminOrdersPage() {
             alert("Failed to confirm order");
         } finally {
             setProcessing(false);
+        }
+    };
+
+    const handleDeleteOrder = async (orderId) => {
+        if (!confirm(`Are you sure you want to permanently delete order ${orderId}? This cannot be undone.`)) return;
+
+        try {
+            const res = await authFetch(`/api/admin/order/delete`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                setSelectedOrder(null);
+                fetchOrders();
+            } else {
+                alert(data.message || "Failed to delete order");
+            }
+        } catch (error) {
+            alert("Failed to delete order");
         }
     };
 
@@ -574,6 +595,14 @@ export default function AdminOrdersPage() {
                                     Cancel Order
                                 </button>
                             )}
+
+                            <button
+                                onClick={() => handleDeleteOrder(selectedOrder.orderId)}
+                                className="w-full border border-red-400 text-red-700 bg-red-50 px-4 py-3 rounded-xl hover:bg-red-100 font-medium flex items-center justify-center gap-2"
+                            >
+                                <FiTrash2 className="w-4 h-4" />
+                                Delete Order
+                            </button>
                         </div>
                     </div>
                 </div>
