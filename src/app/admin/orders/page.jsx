@@ -97,7 +97,7 @@ export default function AdminOrdersPage() {
 
         try {
             const res = await authFetch(`/api/admin/order/delete`, {
-                method: 'DELETE',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ orderId })
             });
