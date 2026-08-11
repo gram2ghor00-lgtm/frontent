@@ -191,9 +191,17 @@ export default function Footer() {
 
                     <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-emerald-100/80">
                         <p>&copy; {new Date().getFullYear()} Gram2ghor. All rights reserved.</p>
-                        <p className="font-medium">
-                            Crafted with care · <span className="text-amber-300">Developed by Abdullah AL Fuad</span>
-                        </p>
+                        <div className="text-center sm:text-right">
+                            <p className="font-medium">
+                                Crafted with care · <span className="text-amber-300">Developed by Tohas Protrade</span>
+                            </p>
+                            <a
+                                href="mailto:tohasprotrade@gmail.com"
+                                className="block text-emerald-100/70 hover:text-amber-300 transition-colors"
+                            >
+                                tohasprotrade@gmail.com
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
