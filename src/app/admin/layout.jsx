@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FiGrid, FiPackage, FiLayout, FiList, FiTruck, FiMenu, FiX, FiSettings, FiHome, FiPercent, FiStar, FiLogOut, FiUsers } from "react-icons/fi";
+import { FiGrid, FiPackage, FiLayout, FiList, FiTruck, FiMenu, FiX, FiSettings, FiHome, FiPercent, FiStar, FiLogOut, FiUsers, FiActivity } from "react-icons/fi";
 import { isAuthenticated, logout, verifyToken } from "@/services/adminAuth";
 
 export default function AdminLayout({ children }) {
@@ -84,6 +84,7 @@ export default function AdminLayout({ children }) {
         { name: 'Headers', path: '/admin/header', icon: <FiLayout className="w-5 h-5" /> },
         { name: 'Discounts', path: '/admin/discount', icon: <FiPercent className="w-5 h-5" /> },
         { name: 'Reviews', path: '/admin/reviews', icon: <FiStar className="w-5 h-5" /> },
+        { name: 'Meta Pixel', path: '/admin/meta-pixel', icon: <FiActivity className="w-5 h-5" /> },
         { name: 'Admins', path: '/admin/admins', icon: <FiUsers className="w-5 h-5" /> },
     ];
 

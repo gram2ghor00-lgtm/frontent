@@ -5,6 +5,7 @@ import HeaderTop from "@/components/Header-top.jsx";
 import Footer from "@/components/Footer.jsx";
 import ChatFloatingButton from "@/components/ChatFloatingButton.jsx";
 import FetchPatch from "@/components/FetchPatch.jsx";
+import MetaPixel from "@/components/MetaPixel.jsx";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <MetaPixel />
         <FetchPatch />
         <HeaderTop />
         <Navbar />

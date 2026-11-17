@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FiArrowLeft, FiCheck } from "react-icons/fi";
+import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 
 export default function CheckoutPage() {
     const [cart, setCart] = useState(null);
@@ -70,6 +71,7 @@ export default function CheckoutPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (placingOrder) return;
         setPlacingOrder(true);
 
         try {
@@ -87,6 +89,17 @@ export default function CheckoutPage() {
             if (data.success) {
                 setOrderPlaced(true);
                 setOrderData(data.data);
+
+                try {
+                    trackPurchase({
+                        orderId: data.data.orderId,
+                        totalAmount: data.data.totalAmount || totalAmount,
+                        items: items
+                    });
+                } catch (pixelErr) {
+                    console.warn("[MetaPixel] Purchase tracking failed silently:", pixelErr);
+                }
+
                 localStorage.removeItem('guestId');
                 
                 // Generate new guest ID for future orders
@@ -114,6 +127,14 @@ export default function CheckoutPage() {
     const afterDiscount = subtotal - totalDiscount;
     
     const totalAmount = afterDiscount + deliveryCharges[formData.deliveryArea];
+
+    const hasTrackedCheckout = useRef(false);
+    useEffect(() => {
+        if (items.length > 0 && !hasTrackedCheckout.current) {
+            hasTrackedCheckout.current = true;
+            trackInitiateCheckout(items, totalAmount);
+        }
+    }, [items, totalAmount]);
 
     if (orderPlaced && orderData) {
         return (

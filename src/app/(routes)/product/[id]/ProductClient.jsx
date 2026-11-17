@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FiShoppingCart, FiCheck, FiHelpCircle, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import { PiWhatsappLogoBold } from "react-icons/pi";
 import { addToCart } from "@/utils/cart";
+import { trackViewContent, trackAddToCart } from "@/lib/metaPixel";
 
 export default function ProductClient({ productId }) {
     const [product, setProduct] = useState(null);
@@ -31,6 +32,7 @@ export default function ProductClient({ productId }) {
                 
                 if (data.success) {
                     setProduct(data.data);
+                    trackViewContent(data.data, 0);
                     if (productRef.current) {
                         productRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
@@ -106,6 +108,20 @@ export default function ProductClient({ productId }) {
                 setAdded(true);
                 setTimeout(() => setAdded(false), 2000);
                 window.dispatchEvent(new Event('cart-updated'));
+
+                try {
+                    const w = product.weights[selectedWeight];
+                    const finalPrice = w.price - ((w.price * (w.discountPercent || 0)) / 100);
+                    trackAddToCart({
+                        productId: product._id,
+                        productName: product.firstName,
+                        price: finalPrice,
+                        quantity: quantity,
+                        category: product.category?.category_name
+                    });
+                } catch (pixelErr) {
+                    console.warn("[MetaPixel] AddToCart error silently caught:", pixelErr);
+                }
             } else {
                 alert(data.message || 'Failed to add to cart');
             }
@@ -157,6 +173,20 @@ export default function ProductClient({ productId }) {
 
             if (data.success) {
                 window.dispatchEvent(new Event('cart-updated'));
+
+                try {
+                    const finalPrice = currentWeight.price - ((currentWeight.price * (currentWeight.discountPercent || 0)) / 100);
+                    trackAddToCart({
+                        productId: product._id,
+                        productName: product.firstName,
+                        price: finalPrice,
+                        quantity: quantity,
+                        category: product.category?.category_name
+                    });
+                } catch (pixelErr) {
+                    console.warn("[MetaPixel] AddToCart error silently caught:", pixelErr);
+                }
+
                 router.push('/checkout');
             } else {
                 alert(data.message || 'Failed to proceed');
