@@ -11,7 +11,7 @@ export default function WhatsAppChatWidget() {
     const [isVisible, setIsVisible] = useState(false);
     const messagesEndRef = useRef(null);
 
-    const whatsappNumber = "8801618566586";
+    const whatsappNumber = "8801822858380";
     const defaultMessage = "হ্যালো, আমি একটি পণ্য সম্পর্কে জানতে চাই।";
 
     useEffect(() => {

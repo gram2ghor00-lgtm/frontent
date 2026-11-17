@@ -10,7 +10,7 @@ export default function WhatsAppFloatingButton() {
         setIsVisible(true);
     }, []);
 
-    const whatsappNumber = "8801618566586";
+    const whatsappNumber = "8801822858380";
     const defaultMessage = "হ্যালো, আমি একটি পণ্য সম্পর্কে জানতে চাই।";
     const encodedMessage = encodeURIComponent(defaultMessage);
     

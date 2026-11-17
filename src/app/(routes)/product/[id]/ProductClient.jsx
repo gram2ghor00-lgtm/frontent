@@ -372,7 +372,7 @@ export default function ProductClient({ productId }) {
                                  {adding ? 'Adding...' : added ? <><FiCheck className="w-5 h-5" /> Added</> : currentWeight?.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                              </button>
                              <a
-                                 href={`https://wa.me/8801618566586?text=${encodeURIComponent(`হ্যালো, আমি ${product?.firstName} পণ্যটি সম্পর্কে জানতে চাই।`)}`}
+                                 href={`https://wa.me/8801822858380?text=${encodeURIComponent(`হ্যালো, আমি ${product?.firstName} পণ্যটি সম্পর্কে জানতে চাই।`)}`}
                                  target="_blank"
                                  rel="noopener noreferrer"
                                  className="flex-1 bg-green-500 hover:bg-green-600 text-white text-sm sm:text-base font-medium py-3 sm:py-3.5 rounded-lg flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap"
