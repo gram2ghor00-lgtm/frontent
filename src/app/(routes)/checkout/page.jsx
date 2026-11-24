@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FiArrowLeft, FiCheck } from "react-icons/fi";
+import { PiWhatsappLogoBold } from "react-icons/pi";
 import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 
 export default function CheckoutPage() {
@@ -151,6 +152,24 @@ export default function CheckoutPage() {
                 <p className="text-sm text-gray-500 mb-6 text-center">
                     Track your order using your phone number: <strong>{orderData.customerPhone}</strong>
                 </p>
+
+                <div className="w-full max-w-md bg-green-50 border border-green-200 rounded-2xl p-4 mb-6 flex flex-col items-center text-center space-y-3">
+                    <p className="text-xs text-green-900 font-medium">
+                        দ্রুত অর্ডার নিশ্চিত করতে ও রসিদ পেতে আমাদের WhatsApp-এ মেসেজ দিন:
+                    </p>
+                    <a
+                        href={`https://wa.me/8801822858380?text=${encodeURIComponent(
+                            `আসসালামু আলাইকুম, আমি গ্রাম২ঘর-এ একটি অর্ডার করেছি।\n\n📦 অর্ডার আইডি: #${orderData.orderId}\n👤 নাম: ${orderData.customerName}\n📱 ফোন: ${orderData.customerPhone}\n📍 ঠিকানা: ${orderData.shippingAddress}\n💰 মোট বিল: ৳${orderData.totalAmount}\n\nদয়া করে অর্ডারটি দ্রুত কনফার্ম করবেন।`
+                        )}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow transition"
+                    >
+                        <PiWhatsappLogoBold className="w-5 h-5" />
+                        <span>WhatsApp-এ অর্ডার কনফার্ম করুন</span>
+                    </a>
+                </div>
+
                 <div className="flex gap-4">
                     <button
                         onClick={() => router.push(`/track-order?phone=${orderData.customerPhone}`)}

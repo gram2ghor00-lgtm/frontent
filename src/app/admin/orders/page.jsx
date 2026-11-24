@@ -2,6 +2,7 @@
 import { authFetch } from "@/services/api";
 import React, { useState, useEffect } from "react";
 import { FiSearch, FiEye, FiCheck, FiX, FiPackage, FiTruck, FiClock, FiChevronRight, FiDollarSign, FiCalendar, FiUser, FiMapPin, FiPhone, FiMail, FiTrash2 } from "react-icons/fi";
+import { PiWhatsappLogoBold } from "react-icons/pi";
 
 export default function AdminOrdersPage() {
     const [orders, setOrders] = useState([]);
@@ -385,13 +386,26 @@ export default function AdminOrdersPage() {
                                                 {new Date(order.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-4">
+                                        <td className="px-4 py-4 flex items-center gap-1">
                                             <button
                                                 onClick={(e) => handleViewOrder(order, e)}
                                                 className="p-2 text-emerald-600 hover:bg-emerald-100 rounded-lg transition-colors"
+                                                title="View Details"
                                             >
                                                 <FiEye className="w-4 h-4" />
                                             </button>
+                                            <a
+                                                href={`https://wa.me/${(order.customerPhone || '').replace(/\D/g, '').startsWith('88') ? (order.customerPhone || '').replace(/\D/g, '') : `88${(order.customerPhone || '').replace(/\D/g, '')}`}?text=${encodeURIComponent(
+                                                    `আসসালামু আলাইকুম ${order.customerName} ভাই! গ্রাম২ঘর-এ আপনার অর্ডার #${order.orderId} সফলভাবে পাওয়া গেছে। মোট বিল: ৳${order.totalAmount}। অর্ডারটি নিশ্চিত করতে এই মেসেজের রিপ্লাই দিন। ধন্যবাদ!`
+                                                )}`}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                                                title="কাস্টমারকে WhatsApp-এ মেসেজ পাঠান"
+                                            >
+                                                <PiWhatsappLogoBold className="w-4 h-4" />
+                                            </a>
                                         </td>
                                     </tr>
                                 ))}
@@ -454,6 +468,17 @@ export default function AdminOrdersPage() {
                                         <div>
                                             <p className="text-xs text-gray-500">Phone</p>
                                             <p className="font-medium text-gray-800">{selectedOrder.customerPhone}</p>
+                                            <a
+                                                href={`https://wa.me/${(selectedOrder.customerPhone || '').replace(/\D/g, '').startsWith('88') ? (selectedOrder.customerPhone || '').replace(/\D/g, '') : `88${(selectedOrder.customerPhone || '').replace(/\D/g, '')}`}?text=${encodeURIComponent(
+                                                    `আসসালামু আলাইকুম ${selectedOrder.customerName} ভাই! গ্রাম২ঘর-এ আপনার অর্ডার #${selectedOrder.orderId} সফলভাবে পাওয়া গেছে। মোট বিল: ৳${selectedOrder.totalAmount}। অর্ডারটি নিশ্চিত করতে রিপ্লাই দিন। ধন্যবাদ!`
+                                                )}`}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-700 bg-green-100 hover:bg-green-200 px-2 py-0.5 rounded transition mt-0.5"
+                                            >
+                                                <PiWhatsappLogoBold className="w-3 h-3" />
+                                                <span>WhatsApp মেসেজ</span>
+                                            </a>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
