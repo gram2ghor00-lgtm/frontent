@@ -68,18 +68,18 @@ export default function MetaPixel() {
                     }
                 }
 
-                // Fallback to environment variable if present
-                if (process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID && isMounted) {
-                    const envId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
-                    setPixelConfig({ pixelId: envId, isEnabled: true });
-                    initPixel(envId);
+                // Fallback to environment variable or configured client pixel ID
+                const fallbackId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || "1450696980557999";
+                if (fallbackId && isMounted) {
+                    setPixelConfig({ pixelId: fallbackId, isEnabled: true });
+                    initPixel(fallbackId);
                 }
             } catch (err) {
-                // If API is temporarily unreachable, fallback to env variable if present
-                if (process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID && isMounted) {
-                    const envId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
-                    setPixelConfig({ pixelId: envId, isEnabled: true });
-                    initPixel(envId);
+                // If API is temporarily unreachable, fallback to env variable or configured client pixel ID
+                const fallbackId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || "1450696980557999";
+                if (fallbackId && isMounted) {
+                    setPixelConfig({ pixelId: fallbackId, isEnabled: true });
+                    initPixel(fallbackId);
                 }
             }
         };

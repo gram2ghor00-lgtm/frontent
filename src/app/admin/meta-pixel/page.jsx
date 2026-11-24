@@ -33,18 +33,36 @@ export default function MetaPixelAdminPage() {
         setLoading(true);
         try {
             const res = await authFetch("/api/admin/pixel/get-pixel");
-            const data = await res.json();
-            if (data.success && data.data) {
-                setForm({
-                    pixelId: data.data.pixelId || "",
-                    isEnabled: Boolean(data.data.isEnabled),
-                    capiToken: data.data.capiToken || "",
-                    testEventCode: data.data.testEventCode || ""
-                });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.success && data.data) {
+                    setForm({
+                        pixelId: data.data.pixelId || "1450696980557999",
+                        isEnabled: data.data.pixelId ? Boolean(data.data.isEnabled) : true,
+                        capiToken: data.data.capiToken || "",
+                        testEventCode: data.data.testEventCode || ""
+                    });
+                }
+            } else {
+                // If backend API is not yet updated on cPanel, load from localStorage or default
+                try {
+                    const cachedId = localStorage.getItem("gram_pixel_id") || "1450696980557999";
+                    const cachedEnabled = localStorage.getItem("gram_pixel_enabled") !== "false";
+                    setForm(prev => ({
+                        ...prev,
+                        pixelId: cachedId,
+                        isEnabled: cachedEnabled
+                    }));
+                } catch {}
             }
         } catch (error) {
             console.error("Failed to fetch pixel config:", error);
-            setMessage({ type: "error", text: "পিক্সেল কনফিগারেশন লোড করা সম্ভব হয়নি।" });
+            // Fallback to client default ID
+            setForm(prev => ({
+                ...prev,
+                pixelId: prev.pixelId || "1450696980557999",
+                isEnabled: true
+            }));
         } finally {
             setLoading(false);
         }
@@ -64,11 +82,30 @@ export default function MetaPixelAdminPage() {
         setMessage({ type: "", text: "" });
 
         try {
+            // Immediately cache in localStorage for instant client-side tracking
+            try {
+                localStorage.setItem("gram_pixel_id", form.pixelId);
+                localStorage.setItem("gram_pixel_enabled", String(form.isEnabled));
+            } catch {}
+
             const res = await authFetch("/api/admin/pixel/save-pixel", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form)
             });
+
+            if (!res.ok) {
+                if (res.status === 404) {
+                    setMessage({
+                        type: "warning",
+                        text: "পিক্সেল আইডি ব্রাউজারে সক্রিয় হয়েছে! তবে cPanel ব্যাকএন্ডে রুটটি এখনও আপডেট করা হয়নি। স্থায়ীভাবে ডাটাবেজে সেভ করার জন্য cPanel > Git Version Control থেকে 'Update from Remote' এবং Node.js App 'Restart' করুন।"
+                    });
+                    return;
+                }
+                const errText = await res.text();
+                throw new Error(errText);
+            }
+
             const data = await res.json();
 
             if (data.success) {
@@ -85,8 +122,8 @@ export default function MetaPixelAdminPage() {
         } catch (error) {
             console.error("Failed to save pixel config:", error);
             setMessage({
-                type: "error",
-                text: "সার্ভারে কানেক্ট করতে ব্যর্থ হয়েছে। ইন্টারনেট সংযোগ বা ব্যাকএন্ড চেক করুন।"
+                type: "warning",
+                text: "পিক্সেল আইডি ব্রাউজারে সক্রিয় হয়েছে! কিন্তু cPanel ব্যাকএন্ড সার্ভারে কানেক্ট করা যায়নি। দয়া করে cPanel-এ গিয়ে কোড আপডেট এবং রিস্টার্ট করুন।"
             });
         } finally {
             setSaving(false);
@@ -141,11 +178,15 @@ export default function MetaPixelAdminPage() {
                     className={`p-4 rounded-xl flex items-center gap-3 text-sm font-medium ${
                         message.type === "success"
                             ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                            : message.type === "warning"
+                            ? "bg-amber-50 text-amber-800 border border-amber-200"
                             : "bg-red-50 text-red-800 border border-red-200"
                     }`}
                 >
                     {message.type === "success" ? (
                         <FiCheckCircle className="w-5 h-5 flex-shrink-0 text-emerald-600" />
+                    ) : message.type === "warning" ? (
+                        <FiInfo className="w-5 h-5 flex-shrink-0 text-amber-600" />
                     ) : (
                         <FiAlertCircle className="w-5 h-5 flex-shrink-0 text-red-600" />
                     )}
